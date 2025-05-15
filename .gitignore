@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.py[cod]
+*.sqlite3
+*.db
+
+# Environments
+.venv/
+env/
+venv/
+*.env
+
+# PyCharm
+.idea/
+
+# System
+.DS_Store
