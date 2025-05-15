@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Add User{% endblock %}
+
+{% block content %}
+  <h1>Add New User</h1>
+  <form action="{{ url_for('add_user') }}" method="POST">
+    <p>
+      <label for="name">Name:</label><br>
+      <input type="text" name="name" id="name" required>
+    </p>
+    <p>
+      <button type="submit">Create User</button>
+    </p>
+  </form>
+  <p><a href="{{ url_for('list_users') }}">← Back to Users</a></p>
+{% endblock %}
