@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Search Movie{% endblock %}
+
+{% block content %}
+  <h1>Search Movie for {{ user.name }}</h1>
+
+  <form action="{{ url_for('add_movie_search', user_id=user.id) }}" method="POST">
+    <label for="title">Enter title to search:</label><br>
+    <input type="text" name="title" id="title" value="{{ title }}" required>
+    <button type="submit">Search</button>
+  </form>
+
+  {% if search_results %}
+    <h2>Results:</h2>
+    <ul>
+      {% for result in search_results %}
+        <li>
+          {% if result.Poster and result.Poster != 'N/A' %}
+            <img src="{{ result.Poster }}" alt="poster" style="height: 100px; vertical-align: middle;">
+          {% endif %}
+          <strong>{{ result.Title }}</strong> ({{ result.Year }})
+          [<a href="{{ url_for('confirm_add_movie', user_id=user.id, imdb_id=result.imdbID) }}">Select</a>]
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  <p><a href="{{ url_for('user_movies', user_id=user.id) }}">← Back to Movies</a></p>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Confirm Add Movie{% endblock %}
+
+{% block content %}
+  <h1>Confirm Movie for {{ user.name }}</h1>
+
+  <form method="POST">
+    <p><strong>Title:</strong><br>
+      <input type="text" name="title" value="{{ movie.Title }}" required></p>
+
+    <p><strong>Director:</strong><br>
+      <input type="text" name="director" value="{{ movie.Director }}"></p>
+
+    <p><strong>Year:</strong><br>
+      <input type="number" name="year" value="{{ movie.Year }}"></p>
+
+    <p><strong>Rating:</strong><br>
+      <input type="text" name="rating" value="{{ movie.imdbRating }}"></p>
+
+    <p><strong>Plot:</strong><br>
+      <textarea name="plot" rows="4">{{ movie.Plot }}</textarea></p>
+
+    <input type="hidden" name="poster_url" value="{{ movie.Poster }}">
+
+    {% if movie.Poster and movie.Poster != 'N/A' %}
+      <p><img src="{{ movie.Poster }}" alt="Poster" style="height: 150px;"></p>
+    {% endif %}
+
+    <p><button type="submit">Add Movie</button></p>
+  </form>
+
+  <p><a href="{{ url_for('add_movie_search', user_id=user.id) }}">← Back to Search</a></p>
+{% endblock %}

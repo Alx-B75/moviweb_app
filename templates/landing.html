@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome to MoviWeb{% endblock %}
+
+{% block content %}
+<style>
+  .landing-container {
+    text-align: center; /* Center align text within this container */
+    padding: 20px;
+  }
+  .landing-container h1 {
+    margin-bottom: 1rem;
+  }
+  .landing-container p {
+    margin-bottom: 1rem;
+    font-size: 1.1em; /* Slightly larger paragraph text */
+  }
+  .landing-container img {
+    max-width: 600px;
+    display: block;
+    margin: 1rem auto 2rem auto; /* Added more bottom margin to image */
+  }
+  .cta-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff; /* A common primary button color */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+    margin-top: 1rem; /* Space above the button */
+  }
+  .cta-button:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+  }
+</style>
+
+<div class="landing-container">
+  <h1>🎬 Welcome to MoviWeb</h1>
+  <img src="{{ url_for('static', filename='blockbuster_logo.png') }}"
+     alt="Blockbuster Logo">
+
+  <p>Your personal retro-style movie tracker, inspired by Blockbuster video nights!</p>
+  <p><a href="{{ url_for('list_users') }}" class="cta-button">➡️ Enter the Movie Library</a></p>
+</div>
+{% endblock %}

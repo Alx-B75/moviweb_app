@@ -4,6 +4,11 @@
 
 {% block content %}
   <h1>Edit Movie for {{ user.name }}</h1>
+
+  <p>
+    <a href="{{ url_for('edit_movie_search', user_id=user.id, movie_id=movie.id) }}">🔍 Search updated info via OMDb</a>
+  </p>
+
   <form action="{{ url_for('edit_movie', user_id=user.id, movie_id=movie.id) }}" method="POST">
     <p>
       <label for="title">Movie Title:</label><br>

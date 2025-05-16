@@ -25,6 +25,8 @@ class Movie(db.Model):
     year = db.Column(db.Integer)
     rating = db.Column(db.String(10))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    poster_url = db.Column(db.String(300))
+    plot = db.Column(db.Text)
 
     def __repr__(self):
         return f"<Movie {self.id}: {self.title}>"
@@ -55,19 +57,21 @@ class SQLiteDataManager(DataManagerInterface):
         db.session.commit()
         return new_user
 
-    def add_movie(self, user_id, title, director, year, rating):
+    def add_movie(self, user_id, title, director, year, rating, poster_url, plot):
         new_movie = Movie(
             title=title,
             director=director,
             year=year,
             rating=rating,
-            user_id=user_id
+            user_id=user_id,
+            poster_url=poster_url,
+            plot=plot
         )
         db.session.add(new_movie)
         db.session.commit()
         return new_movie
 
-    def update_movie(self, movie_id, title=None, director=None, year=None, rating=None):
+    def update_movie(self, movie_id, title=None, director=None, year=None, rating=None, poster_url=None, plot=None):
         movie = Movie.query.get(movie_id)
         if not movie:
             return False
@@ -89,3 +93,13 @@ class SQLiteDataManager(DataManagerInterface):
         db.session.delete(movie)
         db.session.commit()
         return True
+
+    def delete_user(self, user_id):
+        """Delete a user and all their associated movies."""
+        user = User.query.get(user_id)
+        if user:
+            Movie.query.filter_by(user_id=user_id).delete()
+            db.session.delete(user)
+            db.session.commit()
+            return True
+        return False

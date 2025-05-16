@@ -3,13 +3,100 @@
 {% block title %}Users - MoviWeb{% endblock %}
 
 {% block content %}
-  <h1>Users</h1>
-  <ul>
+<style>
+  .users-container {
+    padding: 20px;
+  }
+  .users-container h1 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  .user-list {
+    list-style-type: none; /* Removes default bullet points */
+    padding: 0;
+    max-width: 500px;
+    margin: 0 auto 1.5rem auto; /* Center the list and add bottom margin */
+  }
+  .user-list li {
+    background-color: #f9f9f9; /* Light background for each item */
+    border: 1px solid #ddd;
+    padding: 10px 15px;
+    margin-bottom: 8px; /* Space between items */
+    border-radius: 4px;
+    display: flex; /* Use flexbox for alignment */
+    justify-content: space-between; /* Pushes name to left, actions to right */
+    align-items: center; /* Vertically aligns items */
+  }
+  .user-list li a {
+    text-decoration: none;
+    color: #007bff;
+  }
+  .user-list li a:hover {
+    text-decoration: underline;
+  }
+  .user-actions a {
+    margin-left: 8px; /* Space between action links/buttons */
+    padding: 5px 10px;
+    text-decoration: none;
+    border-radius: 3px;
+    font-size: 0.9em;
+  }
+  .action-button-view {
+    background-color: #28a745; /* Green for view */
+    color: white;
+  }
+  .action-button-view:hover {
+    background-color: #218838;
+    color: white;
+  }
+  .action-button-delete {
+    background-color: #dc3545; /* Red for delete */
+    color: white;
+  }
+  .action-button-delete:hover {
+    background-color: #c82333;
+    color: white;
+  }
+  .add-user-section {
+    text-align: center; /* Center the "Add New User" button */
+    margin-top: 2rem;
+  }
+  .cta-button { /* Re-using from landing.html for consistency */
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+  }
+  .cta-button:hover {
+    background-color: #0056b3;
+    color: white;
+  }
+</style>
+
+<div class="users-container">
+  <h1>👥 Users</h1>
+  {% if users %}
+  <ul class="user-list">
     {% for user in users %}
-      <li><a href="{{ url_for('user_movies', user_id=user.id) }}">{{ user.name }}</a></li>
+      <li>
+        <a href="{{ url_for('user_movies', user_id=user.id) }}">{{ user.name }}</a>
+        <span class="user-actions">
+          <a href="{{ url_for('user_movies', user_id=user.id) }}" class="action-button-view">View</a>
+          <a href="{{ url_for('delete_user', user_id=user.id) }}" class="action-button-delete" onclick="return confirm('Delete this user and all their movies?')">Delete</a>
+        </span>
+      </li>
     {% else %}
       <li><em>No users found.</em></li>
     {% endfor %}
   </ul>
-  <p><a href="{{ url_for('add_user') }}">➕ Add New User</a></p>
+  {% else %}
+    <p style="text-align:center;"><em>No users found. Add one below!</em></p>
+  {% endif %}
+  <div class="add-user-section">
+    <a href="{{ url_for('add_user') }}" class="cta-button">➕ Add New User</a>
+  </div>
+</div>
 {% endblock %}
