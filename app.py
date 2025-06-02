@@ -64,6 +64,7 @@ def add_movie(user_id):
 
 @app.route('/users/<int:user_id>/edit_movie/<int:movie_id>', methods=['GET', 'POST'])
 def edit_movie(user_id, movie_id):
+    """Allow manual editing of a movie's data without fetching from OMDb."""
     user = data_manager.get_user(user_id)
     movie = data_manager.get_movie(movie_id)
 
@@ -71,30 +72,17 @@ def edit_movie(user_id, movie_id):
         abort(404)
 
     if request.method == 'POST':
-        title = request.form.get('title')
-        director = request.form.get('director') or ''
-        year = request.form.get('year') or ''
-        rating = request.form.get('rating') or ''
-        poster_url = movie.poster_url or ''
-        plot = movie.plot or ''
-
-        if title:
-            data = fetch_omdb_data(title)
-
-            director = data.get('Director') or director
-            year = data.get('Year') or year
-            rating = data.get('imdbRating') or rating
-            poster_url = data.get('Poster') if data.get('Poster') != 'N/A' else poster_url
-            plot = data.get('Plot') if data.get('Plot') != 'N/A' else plot
+        title = request.form.get('title') or movie.title
+        director = request.form.get('director') or movie.director
+        year = request.form.get('year') or movie.year
+        rating = request.form.get('rating') or movie.rating
+        poster_url = request.form.get('poster_url') or movie.poster_url
+        plot = request.form.get('plot') or movie.plot
 
         data_manager.update_movie(movie_id, title, director, year, rating, poster_url, plot)
         return redirect(url_for('user_movies', user_id=user.id))
 
     return render_template('edit_movie.html', user=user, movie=movie)
-
-
-
-
 
 
 @app.route('/users/<int:user_id>/delete_movie/<int:movie_id>')
